@@ -1,15 +1,10 @@
-from core.utils import save_json, now_iso, ensure_dir
 import os
+from core.utils import now_iso, save_json
 
 
-RESULTS_DIR = os.path.join('data', 'results')
-
-
-
-
-def store_result(target: str, phase: str, data: dict) -> str:
-ensure_dir(RESULTS_DIR)
-filename = f"{target.replace(':','_')}_{phase}_{now_iso().replace(':','-')}.json"
-path = os.path.join(RESULTS_DIR, filename)
-save_json(path, data)
-return path
+def save_report(target: str, results: dict):
+    """Simpan hasil scan ke folder reports/"""
+    ensure_dir("reports")
+    filename = f"reports/{target}_{now_iso()}.json"
+    save_json(filename, results)
+    print(f"[+] Report disimpan di {filename}")

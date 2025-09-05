@@ -1,5 +1,4 @@
 import os
-import sys
 import socket
 import json
 import datetime
