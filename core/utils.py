@@ -4,6 +4,21 @@ import socket
 import json
 import datetime
 from typing import Any, Dict
+import re
+
+def banner():
+    print(r"""
+    ==================================
+       DXPLOIT - Pentest Framework
+       Author: @ddamar  
+    ==================================
+    """)
+
+def validate_ip(ip):
+    """Validasi format IPv4 sederhana"""
+    pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
+    return re.match(pattern, ip) is not None
+
 
 def safe_input(prompt: str) -> str:
     try:
