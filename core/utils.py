@@ -5,6 +5,12 @@ import json
 import datetime
 from typing import Any, Dict
 
+def safe_input(prompt: str) -> str:
+    try:
+        return input(prompt)
+    except KeyboardInterrupt:
+        print("\n[!] Interrupted by user")
+        raise SystemExit(1)
 
 def is_valid_ip(ip: str) -> bool:
     try:
