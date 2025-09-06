@@ -1,45 +1,19 @@
-from modules.scanning.rustscan_engine import run_rustscan
-from modules.scanning.nmap_engine import run_nmap
-from modules.scanning.shodan_engine import run_shodan
-from core.utils import validate_ip
+def choose_engine():
+    print("\n🔎 Pilih Engine Scanning:")
+    print("1. RustScan (cepat & akurat)")
+    print("2. Nmap (detail, service detection)")
+    print("3. Shodan API (OSINT mode, butuh API key)")
+    choice = input("👉 Pilihan [1-3]: ").strip()
 
-def main_menu():
-    print("\n=== DXploit Main Menu ===")
-    print("[1] Scanning")
-    print("[2] Exploitation (coming soon)")
-    print("[3] Reporting (coming soon)")
-    print("[0] Exit")
+    engines = {"1": "rustscan", "2": "nmap", "3": "shodan"}
+    return engines.get(choice, "nmap")
 
-    choice = input(">> Pilih opsi: ").strip()
+def choose_mode():
+    print("\n⚡ Pilih Mode Scanning:")
+    print("1. Normal → default balance (akurasi & kecepatan seimbang)")
+    print("2. Silent → stealthy, dengan delay & evasion (minim jejak)")
+    print("3. Brutal → cepat & agresif (cocok stress-test)")
+    choice = input("👉 Pilihan [1-3]: ").strip()
 
-    if choice == "1":
-        ip = input(">> Masukkan IP target: ").strip()
-        if not validate_ip(ip):
-            print("[!] IP tidak valid!")
-            return
-        
-        print("\nPilih metode scanning:")
-        print("[1] RustScan (super cepat)")
-        print("[2] Nmap (detail & akurat)")
-        print("[3] Shodan API (intelligence)")
-
-        scan_choice = input(">> Pilih metode: ").strip()
-
-        if scan_choice == "1":
-            run_rustscan(ip)
-        elif scan_choice == "2":
-            run_nmap(ip)
-        elif scan_choice == "3":
-            run_shodan(ip)
-        else:
-            print("[!] Pilihan tidak valid!")
-
-    elif choice == "2":
-        print("[*] Modul exploitation masih dalam pengembangan.")
-    elif choice == "3":
-        print("[*] Modul reporting masih dalam pengembangan.")
-    elif choice == "0":
-        print("[*] Keluar...")
-        exit(0)
-    else:
-        print("[!] Pilihan tidak valid!")
+    modes = {"1": "normal", "2": "silent", "3": "brutal"}
+    return modes.get(choice, "normal")
