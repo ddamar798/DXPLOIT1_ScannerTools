@@ -1,24 +1,33 @@
-#!/usr/bin/env python3
-"""
-DXploit - Main Entry Point
-Author: Damarr & Anonim?
-Description: Unified entry point untuk DXploit.
-"""
-
 import sys
-from core.menu import main_menu
-from core.utils import banner
+from core import menu
+from modules.scanning.runner import run_scan
+from core.utils import validate_ip
 
 def main():
-    try:
-        banner()
-        main_menu()
-    except KeyboardInterrupt:
-        print("\n[!] User interrupted. Exiting DXploit...")
-        sys.exit(0)
-    except Exception as e:
-        print(f"[!] Unexpected error: {e}")
+    print("🔥 DXploit v3 – Pentest Automation Framework 🔥")
+    print("=============================================")
+
+    # Step 1: Input target
+    target = input("🎯 Masukkan Target IP/Host: ").strip()
+    if not validate_ip(target):
+        print("❌ Target tidak valid!")
         sys.exit(1)
+
+    # Step 2: Pilih Engine
+    engine = menu.choose_engine()
+
+    # Step 3: Pilih Mode
+    mode = menu.choose_mode()
+
+    # Step 4: Jalankan scanning
+    results = run_scan(target, engine, mode)
+
+    # Step 5: Output hasil
+    print("\n📊 Hasil Scan:")
+    for r in results:
+        print(f"  - Port {r['port']} | Service: {r['service']} | Product: {r['product']} {r['version']}")
+
+    print("\n✅ Scan selesai! Lanjutkan ke eksploitasi sesuai rekomendasi.")
 
 if __name__ == "__main__":
     main()
