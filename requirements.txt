@@ -1,2 +1,16 @@
-requests
-python-dotenv
+# DXploit Requirements – Step 6
+# Core dependencies
+requests>=2.31.0
+tabulate>=0.9.0
+
+# Shodan API
+shodan>=1.30.0
+
+# Optional but recommended for parsing & exploitation modules
+python-nmap>=0.7.1
+psycopg2-binary>=2.9.9   # untuk eksploitasi PostgreSQL opsional
+paramiko>=3.4.0          # untuk SSH brute / koneksi post-exploit
+colorama>=0.4.6          # output CLI berwarna biar lebih jelas
+
+# Reporting
+markdown2>=2.5.0
