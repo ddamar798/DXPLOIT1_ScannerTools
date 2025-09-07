@@ -7,8 +7,8 @@ Step 6 – Advanced Reporting, CVE Auto-Mapping, Post-Exploitation Intel
 import sys
 import json
 from core.menu import main_menu
-from modules.scanning.scanner import run_scan
-from modules.mapping.mapper import map_to_exploits
+from modules.scanning import run_scan
+from modules.exploitation import map_to_exploits
 from modules.exploitation.executor import run_exploit
 from modules.reporting import report
 from modules.intel import cve_lookup

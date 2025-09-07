@@ -20,7 +20,7 @@ def main_menu():
 
     # Jalankan scan sesuai mode
     print("\n[⚡] Menjalankan scanning engine...\n")
-    from modules.scanner import run_scan
+    from modules.scanning import run_scan
     results = run_scan(target_ip, mode)
 
     # Output hasil scan
@@ -35,7 +35,7 @@ def main_menu():
     # Opsi eksploitasi
     lanjut = input("\n[?] Mau lanjut eksploitasi? (y/n): ").lower()
     if lanjut == "y":
-        from modules.exploit import exploit_menu
+        from modules.exploitation import exploit_menu
         exploit_menu(results, target_ip)
     else:
         print("[!] Exit. Bye!")
