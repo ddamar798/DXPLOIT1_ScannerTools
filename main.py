@@ -8,7 +8,7 @@ import sys
 import json
 from core.menu import main_menu
 from modules.scanning import runner
-from modules.exploitation import map_to_exploits
+from modules.exploitation import mapper
 from modules.exploitation.executor import run_exploit
 from modules.reporting import report
 from modules.intel import cve_lookup
@@ -35,11 +35,11 @@ def main():
 
     # 3. Jalankan scan
     print(f"\n[+] Menjalankan scan pada {target} dengan mode {mode}...\n")
-    scan_results = run_scan(target, mode=mode)
+    scan_results = runner(target, mode=mode)
 
     # 4. Mapping eksploit
     print("\n[+] Menganalisis hasil scan & mencari eksploit yang cocok...")
-    exploit_recs = map_to_exploits(scan_results)
+    exploit_recs = mapper(scan_results)
 
     # 5. Lookup CVE otomatis
     print("\n[+] Melakukan pencarian CVE terkait service terdeteksi...")
