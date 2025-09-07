@@ -56,7 +56,9 @@ pip install -r requirements.txt
 # 🛠️ Usage
 
 ## Run DXploit:
-   -> python3 main.py
+   -> python3 venv venv | (optional | recomended)
+   -> source venv/bin/activate | (optional | recomended) 
+   -> python3 main.py 
 
 ## Example CLI Flow:
 [1] Recon & Scanning  
