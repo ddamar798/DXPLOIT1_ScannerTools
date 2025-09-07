@@ -1,23 +1,19 @@
-import subprocess
+# modules/scanning/nmap_engine.py
+import shutil, subprocess
+from typing import Optional, List
 
-def scan(target, mode):
-    cmd = ["nmap", "-sV", target]
+def has_nmap() -> bool:
+    return shutil.which("nmap") is not None
 
-    if mode == "silent":
-        cmd = ["nmap", "-sV", "-T2", "-Pn", target]  # slow, no ping
-    elif mode == "brutal":
-        cmd = ["nmap", "-sV", "-T5", target]  # max speed
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    lines = result.stdout.splitlines()
-
-    findings = []
-    for line in lines:
-        if "/tcp" in line and "open" in line:
-            parts = line.split()
-            port = parts[0]
-            service = parts[2]
-            product = " ".join(parts[3:]) if len(parts) > 3 else ""
-            findings.append({"port": port, "service": service, "product": product, "version": ""})
-
-    return findings
+def run_nmap_direct(target: str, extra_args: Optional[List[str]] = None, timeout: int = 300) -> str:
+    """
+    Runs nmap and returns XML output as text.
+    Example args: ["-sV", "-p", "1-65535"]
+    """
+    if not has_nmap():
+        raise RuntimeError("nmap not found on PATH")
+    args = ["nmap"]
+    args.extend(extra_args or ["-sV", "-oX", "-"])
+    args.append(target)
+    proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout)
+    return proc.stdout

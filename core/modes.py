@@ -1,37 +1,34 @@
 # core/modes.py
 from dataclasses import dataclass
 
-
 @dataclass
 class Mode:
     key: str
-    display: str
-    description: str
+    label: str
     delay_ms: int
     jitter_ms: int
     aggressive: bool
 
-
 MODES = {
-    "normal": Mode("normal", "Normal", "Balanced speed and stealth", delay_ms=0, jitter_ms=0, aggressive=False),
-    "silent": Mode("silent", "Silent", "Slow and stealthy (recommended for live targets)", delay_ms=150, jitter_ms=75, aggressive=False),
-    "brutal": Mode("brutal", "Brutal", "Aggressive & fast (noisy). Use only with permission", delay_ms=0, jitter_ms=0, aggressive=True),
+    "normal": Mode("normal", "Normal (balanced)", 0, 0, False),
+    "silent": Mode("silent", "Silent (stealthy)", 150, 75, False),
+    "brutal": Mode("brutal", "Brutal (aggressive)", 0, 0, True),
 }
 
+from core.utils import safe_input
 
-def choose_mode():
-    from core.utils import safe_input
-    print("\nPilih mode serangan:")
-    for k, m in MODES.items():
+def choose_mode_interactive():
+    print("\nPilih mode:")
+    for k,m in MODES.items():
         warn = " ⚠️" if m.aggressive else ""
-        print(f" - {m.key}: {m.display} - {m.description}{warn}")
+        print(f" - {k}: {m.label}{warn}")
     while True:
-        pick = safe_input("Masukkan mode (normal/silent/brutal) [normal]: ").strip().lower() or "normal"
+        pick = safe_input("Mode (normal/silent/brutal) [normal]: ").strip().lower() or "normal"
         if pick in MODES:
             if MODES[pick].aggressive:
-                confirm = safe_input("Brutal mode akan sangat noisy. Pastikan izin tersedia. Ketik YES untuk lanjut: ")
-                if confirm.strip().upper() != "YES":
-                    print("Batal brutal mode. Kembali ke pilihan.")
+                confirm = safe_input("Brutal mode is noisy. Type YES to confirm: ")
+                if confirm.strip() != "YES":
+                    print("Cancelled brutal mode selection.")
                     continue
             return MODES[pick]
-        print("[!] Mode tidak dikenali, ulangi.")
+        print("[!] Unknown mode.")

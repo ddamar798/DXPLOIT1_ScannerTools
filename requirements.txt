@@ -15,19 +15,11 @@
 
              #------------------------#
 
-# HTTP requests & API integrations
 requests>=2.31.0
-# Tabel rapi di CLI
-tabulate>=0.9.0
-# Integrasi Shodan API
 shodan>=1.30.0
-# Wrapper Nmap (untuk parsing hasil scan)
 python-nmap>=0.7.1
-# SSH remote connection / brute (post-exploit opsional)
-paramiko>=3.4.0
-# PostgreSQL client (untuk eksploitasi DB opsional)
-psycopg2-binary>=2.9.9
-# CLI output berwarna biar lebih mudah dibaca
-colorama>=0.4.6
-# Markdown reporting
+tabulate>=0.9.0
 markdown2>=2.5.0
+# optional/exploit helpers (install if you want executor full power)
+paramiko>=3.4.0
+psycopg2-binary>=2.9.9
