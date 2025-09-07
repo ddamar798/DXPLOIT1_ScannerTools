@@ -19,7 +19,7 @@ MODES = {
 }
 
 
-def choose_mode_interactive():
+def choose_mode():
     from core.utils import safe_input
     print("\nPilih mode serangan:")
     for k, m in MODES.items():
