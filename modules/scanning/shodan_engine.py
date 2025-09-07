@@ -1,21 +1,24 @@
+# modules/scanning/shodan_engine.py
+import os
 import shodan
 
-API_KEY = "YOUR_SHODAN_API_KEY"
+def shodan_scan(ip: str):
+    """
+    Lakukan Shodan lookup untuk IP target.
+    Membutuhkan SHODAN_API_KEY di environment variable.
+    """
+    api_key = os.getenv("SHODAN_API_KEY")
+    if not api_key:
+        print("[!] SHODAN_API_KEY belum di-set di environment.")
+        return None
 
-def scan(target):
-    api = shodan.Shodan(API_KEY)
-    findings = []
-
+    api = shodan.Shodan(api_key)
     try:
-        host = api.host(target)
-        for item in host['data']:
-            findings.append({
-                "port": item['port'],
-                "service": item.get('product', 'unknown'),
-                "product": item.get('product', ''),
-                "version": item.get('version', '')
-            })
-    except Exception as e:
-        print(f"❌ Shodan error: {e}")
-
-    return findings
+        result = api.host(ip)
+        print(f"[+] Shodan data for {ip}:")
+        for item in result['data']:
+            print(f"  - {item['port']}/tcp => {item.get('product', 'Unknown')} {item.get('version', '')}")
+        return result
+    except shodan.APIError as e:
+        print(f"[!] Shodan API error: {e}")
+        return None
