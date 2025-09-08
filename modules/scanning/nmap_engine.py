@@ -1,19 +1,30 @@
-# modules/scanning/nmap_engine.py
-import shutil, subprocess
-from typing import Optional, List
+import subprocess
 
-def has_nmap() -> bool:
-    return shutil.which("nmap") is not None
+def scan_with_nmap(target, mode="normal"):
+    """
+    Jalankan Nmap scan terhadap target.
+    mode:
+      - normal: balanced, service & version detection
+      - silent: stealth (pakai -sS SYN scan + tanpa ping)
+      - brutal: full + aggressive (-A)
+    """
 
-def run_nmap_direct(target: str, extra_args: Optional[List[str]] = None, timeout: int = 300) -> str:
-    """
-    Runs nmap and returns XML output as text.
-    Example args: ["-sV", "-p", "1-65535"]
-    """
-    if not has_nmap():
-        raise RuntimeError("nmap not found on PATH")
-    args = ["nmap"]
-    args.extend(extra_args or ["-sV", "-oX", "-"])
-    args.append(target)
-    proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout)
-    return proc.stdout
+    try:
+        if mode == "silent":
+            cmd = ["nmap", "-sS", "-Pn", "-T2", "-sV", target]
+        elif mode == "brutal":
+            cmd = ["nmap", "-A", "-T4", target]
+        else:  # normal
+            cmd = ["nmap", "-sV", "-T3", target]
+
+        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+
+        if result.returncode != 0:
+            return {"error": result.stderr.strip()}
+
+        return {"raw_output": result.stdout}
+
+    except FileNotFoundError:
+        return {"error": "Nmap tidak ditemukan. Install dulu dengan: sudo apt install nmap"}
+    except Exception as e:
+        return {"error": str(e)}
