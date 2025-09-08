@@ -40,8 +40,8 @@ Dengan DXploit, kamu bisa melakukan pentest dengan gaya real offensive security 
 # 🚀 Installation :
 
 ## Clone repository
-git clone https://github.com/yourusername/DXPLOIT1_ScannerTools.git
-cd DXPLOIT1_ScannerTools
+git clone https://github.com/ddamar798/DXPLOIT.PentestTools
+cd DXPLOIT.PentestTools
 
 ## Buat virtual environment
 python3 -m venv venv
